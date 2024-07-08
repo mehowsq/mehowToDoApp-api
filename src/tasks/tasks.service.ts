@@ -1,9 +1,9 @@
 import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { Task } from 'src/task';
-import { TasksRepository } from 'src/tasks.repository';
-import { CreateTaskDto } from 'src/tasks/dto/create-task.dto';
 import { v4 } from 'uuid';
-
+import { CreateTaskDto } from './dto/create-task.dto';
+import { FindAllTasksDto } from './dto/find-all-tasks.dto';
+import { Task } from './task';
+import { TasksRepository } from './repositories/tasks.repository';
 @Injectable()
 export class TasksService {
   logger = new Logger(TasksService.name);
@@ -11,8 +11,7 @@ export class TasksService {
   constructor(@Inject(TasksRepository) tasksRepository: TasksRepository) {
     this.tasksRepository = tasksRepository;
   }
-  create(createTaskDto: CreateTaskDto) {
-    this.logger.debug(createTaskDto);
+  async create(createTaskDto: CreateTaskDto) {
     const newTask = new Task(
       v4(),
       createTaskDto.title,
@@ -20,21 +19,29 @@ export class TasksService {
       false,
       new Date(),
     );
-    this.tasksRepository.save(newTask);
+    await this.tasksRepository.save(newTask);
     return newTask;
   }
 
-  getAll(): Task[] {
-    return this.tasksRepository.getAll();
+  getAll(findAllTasksDto: FindAllTasksDto): Promise<Task[]> {
+    return this.tasksRepository.getAll(findAllTasksDto);
   }
 
-  toggleCompleted(id: string): Task {
-    const task = this.tasksRepository.findById(id);
+  get(id: string) {
+    return this.tasksRepository.findById(id);
+  }
+
+  async toggleCompleted(id: string): Promise<Task> {
+    const task = await this.tasksRepository.findById(id);
     if (task) {
       task.isCompleted = !task.isCompleted;
       this.tasksRepository.save(task);
       return task;
     }
     throw new NotFoundException('Task not found');
+  }
+
+  delete(id: string) {
+    this.tasksRepository.delete(id);
   }
 }

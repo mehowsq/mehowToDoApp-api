@@ -1,16 +1,5 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Logger,
-  Param,
-  Patch,
-  Post,
-} from '@nestjs/common';
+import { Controller, Delete, Get, Logger, Param, Post } from '@nestjs/common';
 import { AppService } from './app.service';
-import { CreateTaskDto } from 'src/tasks/dto/create-task.dto';
-import { UpdateTaskDto } from 'src/tasks/dto/update-task.dto';
 
 @Controller('')
 export class AppController {
@@ -18,11 +7,10 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Post()
-  addNewTask(@Body() createTaskDto: CreateTaskDto) {
-    this.logger.debug(createTaskDto);
-    return this.appService.addNewTask(createTaskDto);
-  }
-
+  // addNewTask(@Body() createTaskDto: CreateTaskDto) {
+  //   this.logger.debug(createTaskDto);
+  //   return this.appService.addNewTask(createTaskDto);
+  // }
   @Get()
   getAllTasks() {
     return this.appService.getAllTasks();
@@ -33,10 +21,10 @@ export class AppController {
     console.log(id);
     return this.appService.getAllTasks();
   }
-  @Patch(':id')
-  updateTask(@Param('id') id: string, @Body() updateTaskDto: UpdateTaskDto) {
-    return this.appService.updateTask(id, updateTaskDto);
-  }
+  // @Patch(':id')
+  // updateTask(@Param('id') id: string, @Body() updateTaskDto: UpdateTaskDto) {
+  //   return this.appService.updateTask(id, updateTaskDto);
+  // }
 
   @Delete(':id')
   deleteTask(@Param('id') id: string) {
