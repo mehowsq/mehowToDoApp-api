@@ -57,6 +57,7 @@ export class PgTasksRepository implements TasksRepository {
 
   async getAll(findAllTasksDto: FindAllTasksDto): Promise<Task[]> {
     let res: QueryResult<TaskEntity>;
+
     if (findAllTasksDto.isCompleted === undefined) {
       res = await this.pool.query<TaskEntity>(
         'SELECT * FROM public.tasks ORDER BY id ASC ',

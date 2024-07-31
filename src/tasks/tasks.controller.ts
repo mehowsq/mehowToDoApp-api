@@ -12,9 +12,9 @@ import {
   Query,
 } from '@nestjs/common';
 import { Task } from './task';
-import { TasksService } from './tasks/tasks.service';
-import { CreateTaskDto } from './tasks/dto/create-task.dto';
-import { FindAllTasksDto } from './tasks/dto/find-all-tasks.dto';
+import { TasksService } from './tasks.service';
+import { CreateTaskDto } from './dto/create-task.dto';
+import { FindAllTasksDto } from './dto/find-all-tasks.dto';
 
 @Controller('tasks')
 export class TasksController {
@@ -26,13 +26,12 @@ export class TasksController {
   }
   @Post()
   create(@Body() createTaskDto: CreateTaskDto): Promise<Task> {
-    this.logger.debug(createTaskDto);
+    // this.logger.debug(createTaskDto);
     return this.tasksService.create(createTaskDto);
   }
 
   @Get()
   getAll(@Query() getAllQuery: FindAllTasksDto): Promise<Task[]> {
-    console.log(getAllQuery);
     return this.tasksService.getAll(getAllQuery);
   }
 

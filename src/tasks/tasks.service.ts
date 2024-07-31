@@ -41,7 +41,12 @@ export class TasksService {
     throw new NotFoundException('Task not found');
   }
 
-  delete(id: string) {
-    this.tasksRepository.delete(id);
+  //Napisz funkcje która dla nie istniejącego taska rzuci błąd
+  async delete(id: string) {
+    const task = await this.tasksRepository.findById(id);
+    if (!task) {
+      throw new NotFoundException(`Task with ID "${id}" not found`);
+    }
+    await this.tasksRepository.delete(id);
   }
 }
