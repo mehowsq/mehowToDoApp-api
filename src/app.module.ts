@@ -6,18 +6,21 @@ import { TasksController } from './tasks/tasks.controller';
 import { TasksService } from './tasks/tasks.service';
 import { PgTasksRepository } from './tasks/repositories/pg-tasks.repository';
 import { TasksRepository } from './tasks/repositories/tasks.repository';
-import { RegistrationController } from './auth/registration.controller';
 import { UsersRepository } from './auth/users.repository';
-import { RegistrationService } from './auth/registration.service';
+import { RegistrationController } from './auth/register/registration.controller';
+import { RegistrationService } from './auth/register/registration.service';
+import { LoginController } from './auth/login/login.controller';
+import { LoginService } from './auth/login/login.service';
 
 @Module({
   imports: [],
-  controllers: [TasksController, RegistrationController],
+  controllers: [TasksController, RegistrationController, LoginController],
   providers: [
     AppService,
     TasksService,
     RegistrationService,
     UsersRepository,
+    LoginService,
     {
       provide: TasksRepository,
       useClass: PgTasksRepository,

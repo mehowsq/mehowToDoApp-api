@@ -1,7 +1,7 @@
 import { Inject } from '@nestjs/common';
-import { RegisterUserDto } from './dto/register-user.dto';
-import { UsersRepository } from './users.repository';
 import { v4 } from 'uuid';
+import { UsersRepository } from '../users.repository';
+import { RegisterUserDto } from './dto/register-user.dto';
 
 export class RegistrationService {
   constructor(
